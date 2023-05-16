@@ -1,0 +1,131 @@
+<section class="form">
+  <header>
+    <h1>Notification Form</h1>
+  </header>
+  <div class="container">
+    <div class="form-wrapper">
+      <form class="my-form" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div class="name-row">
+          <div class="name-input">
+            <label for="firstName">First Name</label>
+            <input type="text" formControlName="firstName" id="firstName" />
+            <div
+              *ngIf="
+                myForm.get('firstName').invalid &&
+                myForm.get('firstName').touched
+              "
+            >
+              <div *ngIf="myForm.get('firstName').errors.required" class="red">
+                First name is required.
+              </div>
+            </div>
+          </div>
+          <div class="name-input">
+            <label for="lastName">Last Name</label>
+            <input type="text" formControlName="lastName" id="lastName" />
+            <div
+              *ngIf="
+                myForm.get('lastName').invalid && myForm.get('lastName').touched
+              "
+            >
+              <div *ngIf="myForm.get('lastName').errors.required" class="red">
+                Last name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p>How would you prefer to be notified?</p>
+        <div class="notification-row">
+          <label>
+            <input
+              class="checkbox-input"
+              type="checkbox"
+              formControlName="preferredNotification"
+              (change)="onCheckboxChange('email')"
+            />
+            Email
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              formControlName="preferredNotification"
+              (change)="onCheckboxChange('phoneNumber')"
+            />
+            Phone Number
+          </label>
+        </div>
+
+        <div class="input-row">
+          <div class="form-input">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              id="email"
+              [disabled]="!isEmailEnabled"
+            />
+            <div
+              *ngIf="myForm.get('email').invalid && myForm.get('email').touched"
+            >
+              <div *ngIf="myForm.get('email').errors.required" class="red">
+                Email is required.
+              </div>
+              <div *ngIf="myForm.get('email').errors.email" class="red">
+                Invalid email format.
+              </div>
+            </div>
+          </div>
+          <div class="form-input">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              type="text"
+              formControlName="phoneNumber"
+              id="phoneNumber"
+              [disabled]="!isPhoneNumberEnabled"
+            />
+            <div
+              *ngIf="
+                myForm.get('phoneNumber').invalid &&
+                myForm.get('phoneNumber').touched
+              "
+            >
+              <div *ngIf="myForm.get('phoneNumber').errors.required" class="red">
+                Phone Number is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <label for="dropdownOption">Supervisor</label>
+          <select formControlName="dropdownOption" id="dropdownOption">
+            <option value="">Select...</option>
+            <option
+              *ngFor="let supervisor of managers"
+              [value]="supervisor"
+              value="Option 1"
+            >
+              {{ supervisor.jurisdiction }} - {{ supervisor.lastName }},
+              {{ supervisor.firstName }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              myForm.get('dropdownOption').invalid &&
+              myForm.get('dropdownOption').touched
+            "
+          >
+            <div *ngIf="myForm.get('dropdownOption').errors.required" class="red">
+              Please select an option.
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-button">
+          <button type="submit" [disabled]="myForm.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
